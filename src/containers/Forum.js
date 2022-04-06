@@ -30,12 +30,10 @@ export default function Forum() {
     getPublications()
   }, [])
 
-  console.log(postsArray)
-
   return (
     <div className='h-screen bg-slate-900 pt-20'>
       <PublishPost />
-      <section id='publications' className='mt-4 p-2 flex flex-col space-y-2 bg-slate-800'>
+      {postsArray.length > 0 ? <section id='publications' className='mt-4 p-2 flex flex-col space-y-2 bg-slate-800'>
         {postsArray.map(item => 
           <Post 
           key={item.id}
@@ -43,7 +41,7 @@ export default function Forum() {
           authorId={item.userId}
           msg={item.msg}/>
         )}
-      </section>
+      </section> : ''}
     </div>
   )
 }

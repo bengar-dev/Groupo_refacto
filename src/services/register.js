@@ -11,8 +11,11 @@ export function getRegister(email, password, firstname, lastname) {
         lastname: lastname
     }
 
+    console.log(user)
+
     return axios.post(api + '/api/user/signup', user)
         .then(function (response) {
+            console.log(response)
             return true
         })
         .catch(function (error) {
