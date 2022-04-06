@@ -44,6 +44,11 @@ export default function Header() {
     }
   }
 
+  const handleDisconnect = () => {
+    localStorage.clear('token')
+    window.location.reload(false)
+  }
+
   return (
     <header className='fixed top-0 z-10 w-full h-20 bg-slate-700 shadow-lg flex items-center justify-between'>
       <img src={logowhite} className='w-40 h-auto p-2'/>
@@ -56,7 +61,7 @@ export default function Header() {
           <ul className='text-sm'>
             <li>Mon profil</li>
             <li>Editer mon profil</li>
-            <li>Déconnexion</li>
+            <li className='cursor-pointer' onClick={() => handleDisconnect()}>Déconnexion</li>
           </ul>
       </div>
     </header>
