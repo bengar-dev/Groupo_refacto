@@ -35,26 +35,28 @@ export default function Header() {
 
   const handleToggle = () => {
     setToggle(!toggle)
-    if(toggle) {
-      document.getElementById('toggle-user').classList.remove = 'hidden'
+    if(!toggle) {
+      document.getElementById('toggle-user').classList.remove('-right-40')
+      document.getElementById('toggle-user').classList.add('right-2')
     } else {
-      document.getElementById('toggle-user').classList.add = 'hidden'
+      document.getElementById('toggle-user').classList.add('-right-40')
+      document.getElementById('toggle-user').classList.remove('right-2')
     }
   }
 
   return (
-    <header className='fixed top-0 z-10 w-full h-20 bg-slate-700 shadow-lg flex items-center justify-around'>
-      <img src={logowhite} className='w-40 h-auto'/>
-      <div className='flex items-center space-x-2'>
+    <header className='fixed top-0 z-10 w-full h-20 bg-slate-700 shadow-lg flex items-center justify-between'>
+      <img src={logowhite} className='w-40 h-auto p-2'/>
+      <div className='flex items-center space-x-2 p-2'>
         <img 
         onClick={handleToggle}
-        src={userInfo.avatar} className='w-10 h-10 rounded-full border-2 border-slate-400 shadow-xl cursor-pointer'/>
+        src={userInfo.avatar} className='transition-all duration-200 w-14 h-14 rounded-full border-2 border-slate-400 hover:grayscale shadow-xl cursor-pointer'/>
       </div>
-        <div id='toggle-user' className='transition-all absolute bg-slate-700 right-0 top-20 p-2 shadow-lg hidden'>
+        <div id='toggle-user' className='transition-all absolute bg-white -right-40 top-20 p-2 shadow-lg rounded'>
           <ul className='text-sm'>
             <li>Mon profil</li>
             <li>Editer mon profil</li>
-            <li>Déconnection</li>
+            <li>Déconnexion</li>
           </ul>
       </div>
     </header>
