@@ -41,7 +41,9 @@ export default function Forum() {
           authorId={item.userId}
           msg={item.msg}/>
         )}
-      </section> : ''}
+      </section> : <section id='publications' className='mt-10 p-2 flex flex-col space-y-2 bg-slate-800'>
+        <p className='font-medium text-slate-300 text-center'>Aucune publication</p>
+        </section>}
     </div>
   )
 }
