@@ -8,8 +8,7 @@ export function getUser(userId, token) {
         headers: {'Authorization' : 'Bearer ' + token}
     })
         .then(function (response){
-            console.log(response)
-            return response
+            return response.data.user
         })
         .catch(function (error){
             return false
