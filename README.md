@@ -2,7 +2,9 @@
 
 Refactorisation du projet Groupomania chez OpenClassrooms.
 
-Technologies utilisées: 
+Vous pouvez retrouver le projet original complet ici : 
+
+Technologies utilisées: ['https://github.com/benysserp/Groupomania']Groupomania
 
 1. **React**
 2. **Tailwind CSS**
