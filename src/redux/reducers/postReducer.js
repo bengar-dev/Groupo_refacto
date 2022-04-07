@@ -30,6 +30,16 @@ function postReducer(state = INITIAL_STATE, action) {
                 postsArray: newArr
             }
         }
+
+        case 'EDITPOST': {
+            let newArr = [...state.postsArray]
+            let findIndex = newArr.findIndex(post => post.postId === action.payload.postId)
+            newArr[findIndex].msg = action.payload.content
+            return {
+                ...state,
+                postsArray: newArr
+            }
+        }
     }
 
     return state

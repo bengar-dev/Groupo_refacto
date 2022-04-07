@@ -51,3 +51,29 @@ export function deletePost(postid){
         return false
       })
   }
+
+export function editPost(postid, img, msg) {
+
+    let data = new FormData()
+    data.append('msg', msg)
+    if (!img) {
+        data.append('img', img)
+    }
+    if (msg || img) {
+        return axios.put(api + '/api/post/' + postid, data, {
+            headers: {
+                'Authorization' : 'Bearer ' + token.token,
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        })
+            .then(function (response) {
+                console.log(response)
+                return true
+            })
+            .catch(function (error) {
+                console.log(error)
+                return false
+            })
+    }
+}
