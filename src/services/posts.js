@@ -53,10 +53,10 @@ export function deletePost(postid){
   }
 
 export function editPost(postid, img, msg) {
-
+    console.log(img)
     let data = new FormData()
     data.append('msg', msg)
-    if (!img) {
+    if (img) {
         data.append('img', img)
     }
     if (msg || img) {
@@ -68,11 +68,9 @@ export function editPost(postid, img, msg) {
             }
         })
             .then(function (response) {
-                console.log(response)
                 return true
             })
             .catch(function (error) {
-                console.log(error)
                 return false
             })
     }
