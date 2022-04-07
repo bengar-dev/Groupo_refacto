@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import Post from '../components/Post'
 import PublishPost from '../components/PublishPost'
+import { parseHtmlEntities } from '../functions/htmlentities'
 
 import { getPosts } from '../services/posts'
 
@@ -41,7 +42,7 @@ export default function Forum() {
           date={item.postedat}
           author={item.User}
           img={item.img}
-          msg={item.msg}
+          msg={parseHtmlEntities(item.msg)}
           />
         )}
       </section> : <section id='publications' className='mt-10 p-2 flex flex-col space-y-2 bg-slate-800'>

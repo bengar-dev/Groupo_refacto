@@ -40,6 +40,16 @@ function postReducer(state = INITIAL_STATE, action) {
                 postsArray: newArr
             }
         }
+
+        case 'DELIMG': {
+            let newArr = [...state.postsArray]
+            let findIndex = newArr.findIndex(post => post.postId === action.payload.postId)
+            newArr[findIndex].img = ''
+            return {
+                ...state,
+                postsArray: newArr
+            }
+        }
     }
 
     return state

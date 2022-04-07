@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { sendPost } from '../services/posts'
+import {htmlEntities, parseHtmlEntities} from '../functions/htmlentities'
 
 export default function PublishPost() {
 
@@ -35,7 +36,7 @@ export default function PublishPost() {
     if(e.target.id === 'publish-content') {
       setPost({
         ...post,
-        content: e.target.value
+        content: htmlEntities(e.target.value)
       })
     }
   }
@@ -47,7 +48,7 @@ export default function PublishPost() {
     } else {
       async function awaitPost() {
         console.log(post.img)
-        const result = await sendPost(post.content, post.img)
+        const result = await sendPost(htmlEntities(post.content), post.img)
         if(!result) {
           console.log(result)
         }
@@ -99,7 +100,7 @@ export default function PublishPost() {
        <label htmlFor='publish-post' className='font-medium text-slate-300'>Publier un nouveau statut</label>
         <div id='publish-post' className='scale-0 transition-all duration-200 opacity-0 h-0 flex flex-col space-y-2 w-full'>
           <textarea
-          value={post.content} 
+          value={parseHtmlEntities(post.content)} 
           onChange={handleInput} id='publish-content' 
           className='p-2 h-60 rounded outline-none resize-none bg-slate-400'/>
           {post.imgtemp && <img src={post.imgtemp} className='h-10 object-cover'/>}
