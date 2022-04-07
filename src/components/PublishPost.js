@@ -1,8 +1,14 @@
 import React, {useState} from 'react'
-
+import { useSelector, useDispatch } from 'react-redux'
 import { sendPost } from '../services/sendpost'
 
 export default function PublishPost() {
+
+  const {postsArray} = useSelector(state => ({
+    ...state.postReducer
+  }))
+
+  const dispatch = useDispatch()
 
   const [toggle, setToggle] = useState(true)
   const [post, setPost] = useState({
@@ -33,16 +39,25 @@ export default function PublishPost() {
   }
 
   const handleSubmit = () => {
+    let tempPost = {}
     if(!post.content && !post.img) {
       alert('post vide')
     } else {
       async function awaitPost() {
         const result = await sendPost(post.content, post.img)
         if(!result) {
-          console.log('erreur')
+          console.log(result)
         }
         else {
-          console.log(result)
+          tempPost = {
+            postId: result.postId,
+            userId: result.userId,
+            msg: result.msg
+          }
+          dispatch({
+            type: 'NEWPOST',
+            payload: tempPost
+          })
           setPost({
             content: '',
             img: null

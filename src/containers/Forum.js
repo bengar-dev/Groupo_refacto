@@ -36,8 +36,8 @@ export default function Forum() {
       {postsArray.length > 0 ? <section id='publications' className='mt-4 p-2 flex flex-col space-y-2 bg-slate-800'>
         {postsArray.map(item => 
           <Post 
-          key={item.id}
-          id={item.id}
+          key={item.postId}
+          id={item.postId}
           authorId={item.userId}
           msg={item.msg}/>
         )}

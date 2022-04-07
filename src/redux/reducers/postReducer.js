@@ -11,6 +11,15 @@ function postReducer(state = INITIAL_STATE, action) {
                 postsArray: action.payload
             }
         }
+
+        case 'NEWPOST' : {
+            const newArr = [...state.postsArray]
+            newArr.unshift(action.payload)
+            return {
+                ...state,
+                postsArray: newArr
+            }
+        }
     }
 
     return state

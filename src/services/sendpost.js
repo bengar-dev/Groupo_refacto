@@ -18,10 +18,9 @@ export function sendPost(content, img) {
         }
     })
         .then(function (response) {
-            return response.data.data.id
+            return response.data.data
         })
         .catch(function (error) {
-            console.log(error)
             return false
         })
 
