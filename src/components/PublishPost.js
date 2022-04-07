@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { sendPost } from '../services/sendpost'
+import { sendPost } from '../services/posts'
 
 export default function PublishPost() {
 
-  const {postsArray} = useSelector(state => ({
-    ...state.postReducer
+  const {postsArray, userInfo} = useSelector(state => ({
+    ...state.postReducer,
+    ...state.userReducer
   }))
 
   const dispatch = useDispatch()
@@ -13,7 +14,8 @@ export default function PublishPost() {
   const [toggle, setToggle] = useState(true)
   const [post, setPost] = useState({
     content: '',
-    img: null
+    img: null,
+    imgtemp: ''
   })
 
   const handleToggle = () => {
@@ -40,10 +42,11 @@ export default function PublishPost() {
 
   const handleSubmit = () => {
     let tempPost = {}
-    if(!post.content && !post.img) {
+    if(!post.content && !post.img && !post.imgtemp) {
       alert('post vide')
     } else {
       async function awaitPost() {
+        console.log(post.img)
         const result = await sendPost(post.content, post.img)
         if(!result) {
           console.log(result)
@@ -52,7 +55,11 @@ export default function PublishPost() {
           tempPost = {
             postId: result.postId,
             userId: result.userId,
-            msg: result.msg
+            msg: result.msg,
+            img: post.imgtemp,
+            User: {
+              ...userInfo
+            }
           }
           dispatch({
             type: 'NEWPOST',
@@ -60,7 +67,8 @@ export default function PublishPost() {
           })
           setPost({
             content: '',
-            img: null
+            img: null,
+            imgtemp: ''
           })
         }
       }
@@ -71,13 +79,18 @@ export default function PublishPost() {
   const changeFile = (e) => {
     const reader = new FileReader() // Utilisation de FileReader pour réaliser une preview image.
     reader.onloadend = () => {
-        /*updateImgtempo(reader.result) // stockage du résultat FileReader dans un state image Preview
-        updateImgtempoMsg(reader.result)*/
+        setPost({
+          ...post,
+          img: e.target.files[0],
+          imgtemp: reader.result
+        }) // stockage du résultat FileReader dans un state image Preview
+        /*updateImgtempoMsg(reader.result)*/
     }
     reader.readAsDataURL(e.target.files[0])
     setPost({
       ...post,
-      img: e.target.files[0]
+      img: e.target.files[0],
+      imgtemp: reader.result
     }) // stockage du fichier charger dans un state Image
   }
 
@@ -87,7 +100,9 @@ export default function PublishPost() {
         <div id='publish-post' className='transition-all duration-200 opacity-0 h-0 flex flex-col space-y-2 w-full'>
           <textarea
           value={post.content} 
-          onChange={handleInput} id='publish-content' className='p-2 h-60 rounded outline-none resize-none'/>
+          onChange={handleInput} id='publish-content' 
+          className='p-2 h-60 rounded outline-none resize-none bg-slate-400'/>
+          {post.imgtemp && <img src={post.imgtemp} className='h-10 object-cover'/>}
           <div id='btn-publish' className='hidden flex'>
             <label htmlFor='img' className='text-center transition-all duration-200 w-1/4 bg-slate-400 p-2 hover:bg-rose-400 cursor-pointer' aria-hidden="true"><i className="fas fa-images"></i><p className='hidden'>Image</p>
             <input type='file' className='w-0' id='img' accept='images/*' onChange={(e) => changeFile(e)}/></label>

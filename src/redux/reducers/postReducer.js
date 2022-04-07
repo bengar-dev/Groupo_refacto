@@ -20,6 +20,16 @@ function postReducer(state = INITIAL_STATE, action) {
                 postsArray: newArr
             }
         }
+
+        case 'DELPOST': {
+            let newArr = [...state.postsArray].filter(post => {
+                return post.postId !== action.payload
+              })
+            return {
+                ...state,
+                postsArray: newArr
+            }
+        }
     }
 
     return state

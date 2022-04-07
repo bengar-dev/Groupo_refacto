@@ -33,13 +33,16 @@ export default function Forum() {
   return (
     <div className='h-screen bg-slate-900 pt-20'>
       <PublishPost />
-      {postsArray.length > 0 ? <section id='publications' className='mt-4 p-2 flex flex-col space-y-2 bg-slate-800'>
+      {postsArray.length > 0 ? <section id='publications' className='mt-4 p-2 flex flex-col space-y-10 bg-slate-800'>
         {postsArray.map(item => 
           <Post 
           key={item.postId}
           id={item.postId}
-          authorId={item.userId}
-          msg={item.msg}/>
+          date={item.postedat}
+          author={item.User}
+          img={item.img}
+          msg={item.msg}
+          />
         )}
       </section> : <section id='publications' className='mt-10 p-2 flex flex-col space-y-2 bg-slate-800'>
         <p className='font-medium text-slate-300 text-center'>Aucune publication</p>
