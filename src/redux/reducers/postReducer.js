@@ -50,6 +50,9 @@ function postReducer(state = INITIAL_STATE, action) {
                 postsArray: newArr
             }
         }
+
+        
+
     }
 
     return state

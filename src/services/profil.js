@@ -1,8 +1,9 @@
 import { api } from '../config/api'
 
-export function getUser(userId, token) {
+const token = JSON.parse(localStorage.getItem('token'))
+const axios = require('axios').default
 
-    const axios = require('axios').default
+export function getUser(userId, token) {
 
     return axios.get(api + '/api/user/' + userId, {
         headers: {'Authorization' : 'Bearer ' + token}
@@ -11,6 +12,35 @@ export function getUser(userId, token) {
             return response.data.user
         })
         .catch(function (error){
+            return false
+        })
+
+}
+
+export function editUser(firstname, lastname, img) {
+
+    console.log(typeof img, img)
+
+    const data = new FormData()
+    data.append('firstname', firstname)
+    data.append('lastname', lastname)
+    data.append('userId', token.userId)
+    
+    if(typeof img === 'object') {
+        data.append('img', img)
+    }
+
+    return axios.put(api + '/api/user/' + token.userId, data, {
+        headers: {
+            'Authorization' : 'Bearer ' + token.token,
+            'Accept' : 'application/json',
+            'Content-Type' : 'application/json'
+         }
+    })
+        .then(function (response) {
+            return true
+        })
+        .catch(function (error) {
             return false
         })
 

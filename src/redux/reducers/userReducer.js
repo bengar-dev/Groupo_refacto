@@ -11,6 +11,13 @@ function userReducer(state = INITIAL_STATE, action) {
                 userInfo: action.payload
             }
         }
+
+        case 'EDITUSER' : {
+            return {
+                ...state,
+                userInfo: action.payload
+            }
+        }
     }
 
     return state

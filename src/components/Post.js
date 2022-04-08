@@ -102,7 +102,7 @@ export default function Post(props) {
   return (
     <article className='bg-slate-900 text-slate-200 rounded shadow-lg flex flex-col' id={props.id}>
       <div className='p-2 flex bg-slate-700 space-x-2'>
-        <img src={props.author.avatar} className='w-10 h-10 rounded-full border-2 border-slate-400'/>
+        <img src={props.author.imgtemp ? props.author.imgtemp : props.author.avatar} className='object-cover w-10 h-10 rounded-full border-2 border-slate-400'/>
         <div className='flex flex-col rounded w-full'>
           <h2 className='text-sm font-medium'><Link to={'/profil/' + props.author.id}>{props.author.firstname} {props.author.lastname}</Link></h2>
           <span className='text-xs'>{moment(props.date).format('LLL')}</span>

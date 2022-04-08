@@ -5,6 +5,7 @@ import Register from './containers/Register'
 import Header from './components/Header'
 import Forum from './containers/Forum'
 import Profil from './containers/Profil'
+import EditProfil from './containers/EditProfil'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Forum />} />
           <Route path='/profil/:id' element={<Profil />} />
+          <Route path='/editprofil' element={<EditProfil />} />
         </Routes>
         </>
         :
