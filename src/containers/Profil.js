@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import {getUser} from '../services/profil'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export default function Profil() {
+
+    const navigate = useNavigate()
+    const params = useParams()
 
     const [user, setUser] = useState({
         firstname: '',
@@ -12,7 +16,7 @@ export default function Profil() {
 
     useEffect(() => {
         async function getInfo() {
-            const result = await getUser(token.userId, token.token)
+            const result = await getUser(params.id, token.token)
             if(!result) {
               console.log('erreur')
             }
@@ -33,13 +37,16 @@ export default function Profil() {
 
   return (
     <section id='profil' className='h-screen bg-slate-900 pt-20'>
-        <div className='mt-10 p-2 bg-slate-800 w-full flex flex-col space-y-4'>
+        <div className='relative mt-10 p-2 bg-slate-800 w-full flex flex-col space-y-4'>
             <h1 className='flex items-center text-slate-400 font-bold text-2xl uppercase'>{user.firstname} {user.lastname} {handleRank()}</h1>
             <img src={user.avatar} className='w-20 h-20 object-cover ml-auto mr-auto rounded-full shadow-lg'/>
             <div className='flex flex-col space-y-1'>
                 <h2 className='font-medium text-slate-400'>Contact :</h2>
                 <span className='text-slate-300 text-sm'><i className='fas fa-at text-sky-400' />  {user.email}</span>
             </div>
+            <button
+            onClick={(e) => e.preventDefault(navigate('/'))} 
+            className='flex items-center justify-center w-10 transition-all absolute bottom-2 right-2 bg-slate-400 hover:bg-slate-500 text-slate-800 p-1 rounded'><i className='fas fa-arrow-left' /></button>
         </div>
     </section>
   )

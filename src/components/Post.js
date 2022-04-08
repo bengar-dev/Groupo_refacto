@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { deletePost, editPost } from '../services/posts'
 import { parseHtmlEntities } from '../functions/htmlentities'
@@ -103,7 +104,7 @@ export default function Post(props) {
       <div className='p-2 flex bg-slate-700 space-x-2'>
         <img src={props.author.avatar} className='w-10 h-10 rounded-full border-2 border-slate-400'/>
         <div className='flex flex-col rounded w-full'>
-          <h2 className='text-sm font-medium'>{props.author.firstname} {props.author.lastname}</h2>
+          <h2 className='text-sm font-medium'><Link to={'/profil/' + props.author.id}>{props.author.firstname} {props.author.lastname}</Link></h2>
           <span className='text-xs'>{moment(props.date).format('LLL')}</span>
         </div>
         {token.userId === props.author.id ? <button onClick={(e) => e.preventDefault(handleToggle())} className='transition-all duration-200 bg-orange-500 hover:bg-orange-600 text-sm text-white w-10 h-10 rounded-lg cursor-pointer'><i className='fas fa-edit' /></button> : ''}
