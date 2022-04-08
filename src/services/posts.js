@@ -52,12 +52,15 @@ export function deletePost(postid){
       })
   }
 
-export function editPost(postid, img, msg) {
-    console.log(img)
+export function editPost(postid, img, msg, delImg) {
+    console.log(typeof img, img)
     let data = new FormData()
     data.append('msg', msg)
-    if (img) {
+    if (typeof img === "object") {
         data.append('img', img)
+    }
+    if(delImg) {
+        data.append('delimg', delImg)
     }
     if (msg || img) {
         return axios.put(api + '/api/post/' + postid, data, {

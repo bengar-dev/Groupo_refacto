@@ -4,6 +4,7 @@ import Login from './containers/Login'
 import Register from './containers/Register'
 import Header from './components/Header'
 import Forum from './containers/Forum'
+import Profil from './containers/Profil'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Header /> 
         <Routes>
           <Route path='/' element={<Forum />} />
+          <Route path='/profil/:id' element={<Profil />} />
         </Routes>
         </>
         :

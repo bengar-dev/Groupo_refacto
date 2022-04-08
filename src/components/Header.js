@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 
 import logowhite from '../assets/icon-left-font-monochrome-white.svg'
 
@@ -8,7 +9,7 @@ import { getUser } from '../services/profil'
 export default function Header() {
 
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
   const getToken = JSON.parse(localStorage.getItem('token'))
 
   const [toggle, setToggle] = useState(false)
@@ -51,7 +52,7 @@ export default function Header() {
 
   return (
     <header className='fixed top-0 z-10 w-full h-20 bg-slate-700 shadow-lg flex items-center justify-between'>
-      <img src={logowhite} className='w-40 h-auto p-2'/>
+      <img src={logowhite} className='w-40 h-auto p-2 cursor-pointer' onClick={() => navigate('/')}/>
       <div className='flex items-center space-x-2 p-2'>
         <img 
         onClick={handleToggle}
@@ -59,7 +60,7 @@ export default function Header() {
       </div>
         <div id='toggle-user' className='transition-all absolute bg-white -right-40 top-20 p-2 shadow-lg rounded'>
           <ul className='text-sm'>
-            <li>Mon profil</li>
+            <li onClick={handleToggle}><Link to={'/profil/' + userInfo.id}>Mon profil</Link></li>
             <li>Editer mon profil</li>
             <li className='cursor-pointer' onClick={() => handleDisconnect()}>Déconnexion</li>
           </ul>

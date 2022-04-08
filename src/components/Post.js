@@ -20,6 +20,8 @@ export default function Post(props) {
     imgtemp: ''
   })
 
+  const [delImg, setDelImg] = useState(false)
+
   const {postsArray, userInfo} = useSelector(state => ({
     ...state.postReducer,
     ...state.userReducer
@@ -46,6 +48,7 @@ export default function Post(props) {
       type: 'DELIMG',
       payload: post
     })
+    setDelImg(1)
   }
 
   const handleToggle = () => {
@@ -61,9 +64,9 @@ export default function Post(props) {
     }
   }
 
-  const handleEdit = (id, img, msg) => {
+  const handleEdit = (id, img, msg, delimg) => {
     async function awaitEdit() {
-      const result = await editPost(id, post.img ? post.img : img , msg)
+      const result = await editPost(id, post.img ? post.img : img , msg, delImg)
       if(!result) {
         console.log('erreur')
       } else {
@@ -107,12 +110,12 @@ export default function Post(props) {
         {token.userId === props.author.id ? <button onClick={(e) => e.preventDefault(handleDelete(props.id))} className='transition-all duration-200 bg-red-500 hover:bg-red-600 text-sm text-white w-10 h-10 rounded-lg cursor-pointer'><i className='fas fa-trash' /></button> : ''}
       </div>
       {toggle ? <div className='p-2'>
-        {post.imgtemp ? <img src={post.imgtemp} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/> : <img src={props.img} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/>}
+        {post.imgtemp ? <img src={post.imgtemp} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/> : props.img && <img src={props.img} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/>}
         {props.msg && <p className='p-4 text-sm'>{parseHtmlEntities(props.msg)}</p>}
       </div>
       :
       <form className='relative p-2 flex flex-col space-y-2'>
-        {post.imgtemp ? <img src={post.imgtemp} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/> : <img src={props.img} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/> }
+        {post.imgtemp ? <img src={post.imgtemp} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/> : props.img && <img src={props.img} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/> }
         {props.img && 
         <div className='flex w-full'>
           <label htmlFor='img-edit' className='cursor-pointer text-center w-1/2 transition-all duration-200 p-1 bg-orange-400 hover:bg-orange-800 text-orange-900 hover:text-white' aria-hidden="true"><i className="fas fa-images"></i><p className='hidden'>Image</p>
