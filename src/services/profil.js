@@ -19,8 +19,6 @@ export function getUser(userId, token) {
 
 export function editUser(firstname, lastname, img) {
 
-    console.log(typeof img, img)
-
     const data = new FormData()
     data.append('firstname', firstname)
     data.append('lastname', lastname)
@@ -44,4 +42,18 @@ export function editUser(firstname, lastname, img) {
             return false
         })
 
+}
+
+export function deleteUser(pass) {
+
+    return axios.delete(api + '/api/user/' + token.userId, {
+        headers: {'Authorization' : 'Bearer ' + token.token},
+        data: {password: pass}
+    })
+        .then(function (response) {
+            return true
+        })
+        .catch(function (error) {
+            return false
+        })
 }

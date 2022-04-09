@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-import {getUser, editUser} from '../services/profil'
+import {getUser, editUser, deleteUser} from '../services/profil'
 
 export default function EditProfil() {
 
@@ -10,12 +10,20 @@ export default function EditProfil() {
     const navigate = useNavigate()
     const token = JSON.parse(localStorage.getItem('token'))
 
-    const [user, setUser] = useState({})
-    const [msg, setMsg] = useState('')
-
     const {userInfo} = useSelector(state => ({
         ...state.userReducer
       }))
+
+    const [user, setUser] = useState({
+        firstname: '',
+        lastname: '',
+        avatar: '',
+        email: ''
+    })
+
+    const [password, setPassword] = useState('')
+    const [toggleDelstate, setToggleDel] = useState(false)
+    const [msg, setMsg] = useState('')
 
     useEffect(() => {
         async function getInfo() {
@@ -61,6 +69,23 @@ export default function EditProfil() {
             }
         }
         awaitEdit()
+    }
+
+    const delProfil = () => {
+        async function awaitDelProfil() {
+            const result = await deleteUser(password)
+            if(!result) {
+                console.log('erreur')
+            } else {
+                localStorage.removeItem('token')
+                navigate('/')
+            }
+        }
+        awaitDelProfil()
+    }
+
+    const toggleDel = () => {
+        setToggleDel(!toggleDelstate)
     }
 
     const changeFile = (e) => {
@@ -111,11 +136,26 @@ export default function EditProfil() {
                 <label htmlFor='email' className='flex items-center mt-2 ml-2 font-medium'>E-mail <p className='text-xs ml-2 text-slate-200'>Contacter un admin pour changer l'email</p></label>
                 <input 
                 className='p-2 text-slate-900 outline-none rounded'
-                type='email' id='email' value={user.email}/>
+                type='email' id='email' placeholder={user.email} readOnly/>
                 <button 
                 onClick={(e) => e.preventDefault(editProfil())}
-                className='mt-2 p-2 transition-all duration-200 bg-slate-400 hover:bg-emerald-400 text-slate-800 font-medium'>Editer</button>
+                className='mt-2 p-2 transition-all duration-200 bg-slate-400 hover:bg-emerald-400 text-slate-800'>Editer</button>
+                <button
+                onClick={(e) => e.preventDefault(toggleDel())}
+                className='mt-2 p-2 transition-all duration-200 bg-red-400 hover:bg-red-500 text-white'>Supprimer</button>
             </form>
+            {toggleDelstate &&
+                <div className='flex flex-col space-y-1'>
+                    <label className='text-sm text-white'>Confirmer votre mot de passe</label>
+                    <input 
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    type='password' className='p-2 outline-none'/>
+                    <button 
+                    onClick={(e) => e.preventDefault(delProfil())}
+                    className='transition-all duration-200 p-2 bg-slate-400 text-slate-800 hover:bg-emerald-400'>Confirmer</button>
+                </div>
+                }
         </div>
 
     </div>

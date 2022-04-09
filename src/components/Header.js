@@ -50,8 +50,6 @@ export default function Header() {
     window.location.reload(false)
   }
 
-  console.log(userInfo)
-
   return (
     <header className='fixed top-0 z-10 w-full h-20 bg-slate-700 shadow-lg flex items-center justify-between'>
       <img src={logowhite} className='w-40 h-auto p-2 cursor-pointer' onClick={(e) => e.preventDefault(navigate('/'))}/>
