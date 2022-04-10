@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {Link} from 'react-router-dom'
 import moment from 'moment'
+
 import { delCmt, editCmt } from '../services/cmts'
 
 export default function Comment(props) {
@@ -20,7 +21,7 @@ export default function Comment(props) {
     ...state.cmtReducer
   }))
 
-  const delComment = (cmtid) => {
+  const delComment = (cmtid) => { // fonction suppression de commentaire
     async function awaitDelComment() {
       const result = await delCmt(cmtid)
       if(!result) {
@@ -36,7 +37,7 @@ export default function Comment(props) {
     awaitDelComment()
   }
 
-  const handleInput = (e) => {
+  const handleInput = (e) => { // update state champs input edit commentaire
     if(e.target.id === 'edit-cmt') {
       setCmt({
         ...cmt,
@@ -45,7 +46,7 @@ export default function Comment(props) {
     }
   }
 
-  const editComment = (cmtid) => {
+  const editComment = (cmtid) => { // fonction editer commentaire
     async function awaitEditComment() {
       const result = await editCmt(cmtid, cmt.msg)
       if(!result) {
@@ -60,7 +61,7 @@ export default function Comment(props) {
     awaitEditComment()
   }
 
-  const handleToggle = () => {
+  const handleToggle = () => { //fonction gestion du toggle édition
     setToggle(!toggle)
   }
 
@@ -81,7 +82,7 @@ export default function Comment(props) {
               className='transition-all duration-200 w-6 h-6 rounded text-white bg-red-500 hover:bg-red-600 text-xs'><i className='fas fa-trash' /></button>
             </div>
         </div>
-        {toggle ? 
+        {toggle ? // si le toggle est actif alors on affiche les champs d'édition de commentaire
           <div className='flex p-2 text-sm bg-slate-700'>
             <label htmlFor='edit-cmt'></label>
             <input
@@ -93,7 +94,7 @@ export default function Comment(props) {
             onClick={(e) => e.preventDefault(editComment(props.id))}
             className='flex items-center justify-center p-2 bg-emerald-400 text-emerald-800'><i className='fas fa-paper-plane' /></button>
           </div>
-        : <p className='p-2 text-sm bg-slate-700'>
+        : <p className='p-2 text-sm bg-slate-700'> {/*sinon on affiche tout simplement le message du commentaire*/}
         {props.msg}
     </p>}
     </div>

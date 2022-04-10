@@ -77,8 +77,9 @@ export default function EditProfil() {
             if(!result) {
                 console.log('erreur')
             } else {
-                localStorage.removeItem('token')
                 navigate('/')
+                localStorage.removeItem('token')
+                window.location.reload(false)
             }
         }
         awaitDelProfil()
