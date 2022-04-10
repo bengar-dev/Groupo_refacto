@@ -25,9 +25,42 @@ export function postCmt(postid, comment) {
     headers: {'Authorization' : 'Bearer ' + token.token}
   })
     .then(function (response) {
-      return true
+      return response.data.cmt.id
     })
     .catch(function (error) {
         return false
     })
+}
+
+
+export function delCmt(cmtid) {
+
+  return axios.delete(api + '/api/post/cmt/' + cmtid, {
+    headers: {'Authorization' : 'Bearer ' + token.token}
+  })
+    .then(function (response) {
+      return true
+    })
+    .catch(function (error) {
+      return false
+    })
+
+}
+
+export function editCmt(cmtid, msg) {
+
+  let data = {
+    msg: msg
+  }
+
+  return axios.put(api + '/api/post/cmt/' + cmtid, data, {
+    headers: {'Authorization' : 'Bearer ' + token.token}
+  })
+    .then(function (response) {
+      return true
+    })
+    .catch(function (error) {
+      return false
+    })
+
 }

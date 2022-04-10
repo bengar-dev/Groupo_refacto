@@ -1,8 +1,68 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import {Link} from 'react-router-dom'
 import moment from 'moment'
+import { delCmt, editCmt } from '../services/cmts'
 
 export default function Comment(props) {
+
+  const dispatch = useDispatch()
+
+  const [toggle, setToggle] = useState(false)
+  const [cmt, setCmt] = useState({
+    id: props.id,
+    postId: props.postId,
+    msg: props.msg,
+    userId: props.author.id,
+    User: props.author
+  })
+  const {cmtsArray} = useSelector(state => ({
+    ...state.cmtReducer
+  }))
+
+  const delComment = (cmtid) => {
+    async function awaitDelComment() {
+      const result = await delCmt(cmtid)
+      if(!result) {
+        console.log('erreur')
+      }
+      else {
+        dispatch({
+          type: 'DELCMT',
+          payload: cmtid
+        })
+      }
+    }
+    awaitDelComment()
+  }
+
+  const handleInput = (e) => {
+    if(e.target.id === 'edit-cmt') {
+      setCmt({
+        ...cmt,
+        msg: e.target.value
+      })
+    }
+  }
+
+  const editComment = (cmtid) => {
+    async function awaitEditComment() {
+      const result = await editCmt(cmtid, cmt.msg)
+      if(!result) {
+        console.log('erreur')
+      } else {
+        dispatch({
+          type: 'EDITCMT',
+          payload: cmt
+        })
+      }
+    }
+    awaitEditComment()
+  }
+
+  const handleToggle = () => {
+    setToggle(!toggle)
+  }
 
   return (
     <div className='mt-4 bg-slate-800 flex flex-col rounded shadow'>
@@ -13,13 +73,29 @@ export default function Comment(props) {
                 <p className='font-light text-xs'>{moment(props.date).format('LLL')}</p>
             </div>
             <div className='p-2 flex space-x-2'>
-              <button className='transition-all duration-200 w-6 h-6 rounded text-white bg-orange-500 hover:bg-orange-600 text-xs'><i className='fas fa-pen' /></button>
-              <button className='transition-all duration-200 w-6 h-6 rounded text-white bg-red-500 hover:bg-red-600 text-xs'><i className='fas fa-trash' /></button>
+              <button 
+              onClick={(e) => e.preventDefault(handleToggle())}
+              className='transition-all duration-200 w-6 h-6 rounded text-white bg-orange-500 hover:bg-orange-600 text-xs'><i className='fas fa-pen' /></button>
+              <button 
+              onClick={(e) => e.preventDefault(delComment(props.id))}
+              className='transition-all duration-200 w-6 h-6 rounded text-white bg-red-500 hover:bg-red-600 text-xs'><i className='fas fa-trash' /></button>
             </div>
         </div>
-        <p className='p-2 text-sm bg-slate-700'>
-            {props.msg}
-        </p>
+        {toggle ? 
+          <div className='flex p-2 text-sm bg-slate-700'>
+            <label htmlFor='edit-cmt'></label>
+            <input
+            onChange={handleInput}
+            value={cmt.msg}
+            className='p-2 w-full outline-none text-slate-900'
+            type='text' id='edit-cmt' />
+            <button 
+            onClick={(e) => e.preventDefault(editComment(props.id))}
+            className='flex items-center justify-center p-2 bg-emerald-400 text-emerald-800'><i className='fas fa-paper-plane' /></button>
+          </div>
+        : <p className='p-2 text-sm bg-slate-700'>
+        {props.msg}
+    </p>}
     </div>
   )
 }

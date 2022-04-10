@@ -118,7 +118,10 @@ export default function Post(props) {
       } else {
         dispatch({
           type: 'POSTCMT',
-          payload: cmt
+          payload: {
+            ...cmt,
+            id: result
+          }
         })
         setCmt({
           ...cmt,
@@ -150,7 +153,7 @@ export default function Post(props) {
         onClick={(e) => e.preventDefault(handleToggle())} 
         className='transition-all duration-200 w-8 h-8 rounded text-white bg-orange-500 hover:bg-orange-600 text-xs'><i className='fas fa-pen' /></button> 
         : ''}
-        {token.userId === props.author.id ? 
+        {token.userId === props.author.id || token.admin ? 
         <button 
         onClick={(e) => e.preventDefault(handleDelete(props.id))} 
         className='transition-all duration-200 w-8 h-8 rounded text-white bg-red-500 hover:bg-red-600 text-xs'><i className='fas fa-trash' /></button> : ''}
@@ -190,7 +193,7 @@ export default function Post(props) {
       <div className='p-2 w-full'>
         <button
           onClick={() => setToggleCmt(!toggleCmt)}
-          className='text-xs font-medium p-2'>{toggleCmt ? 'Cacher les commentaires' : 'Voir les commentaires'}</button>
+          className='text-xs font-medium p-2'>{toggleCmt ? 'Cacher les commentaires' : `Voir les commentaires (${cmtsArray.length})`}</button>
         {toggleCmt &&
           <form className='flex justify-between'>
             <label htmlFor='cmt'></label>
@@ -207,6 +210,8 @@ export default function Post(props) {
           cmt.postId === props.id ?
           <Comment
             key={uuidv4()}
+            id={cmt.id}
+            postId={cmt.postId}
             date={cmt.createdAt}
             msg={cmt.msg}
             author={cmt.User}

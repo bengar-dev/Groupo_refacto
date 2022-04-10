@@ -14,9 +14,31 @@ function cmtReducer(state = INITIAL_STATE, action) {
         case 'POSTCMT': {
           const newArr = [...state.cmtsArray]
           newArr.unshift(action.payload)
+          console.log(newArr)
             return {
                 ...state,
                 cmtsArray: newArr
+            }
+        }
+        case 'DELCMT': {
+            const cmtsArr = [...state.cmtsArray]
+            let newArr = cmtsArr.filter(cmt => {
+                return cmt.id !== action.payload
+            })
+            console.log(cmtsArr)
+            return {
+                ...state,
+                cmtsArray: newArr
+            }
+        }
+
+        case 'EDITCMT': {
+            let newArr = [...state.cmtsArray]
+            const findIndex = newArr.findIndex(cmt => cmt.id === action.payload.id)
+            newArr[findIndex].msg = action.payload.msg
+            return {
+                ...state,
+                cmtsArr: newArr
             }
         }
 
