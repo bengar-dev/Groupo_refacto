@@ -138,14 +138,23 @@ export default function Post(props) {
 
   return (
     <article className='bg-slate-900 text-slate-200 rounded shadow-lg flex flex-col' id={props.id}>
-      <div className='p-2 flex bg-slate-700 space-x-2'>
+      <div className='p-2 flex items-center bg-slate-700 space-x-2'>
         <img src={props.author.imgtemp ? props.author.imgtemp : props.author.avatar} className='w-10 h-10 rounded-full border-2 border-slate-400 object-cover '/>
         <div className='flex flex-col rounded w-full'>
           <h2 className='text-sm font-medium'><Link to={'/profil/' + props.author.id}>{props.author.firstname} {props.author.lastname}</Link></h2>
           <span className='text-xs'>{moment(props.date).format('LLL')}</span>
         </div>
-        {token.userId === props.author.id ? <button onClick={(e) => e.preventDefault(handleToggle())} className='transition-all duration-200 bg-orange-500 hover:bg-orange-600 text-sm text-white w-10 h-10 rounded-lg cursor-pointer'><i className='fas fa-edit' /></button> : ''}
-        {token.userId === props.author.id ? <button onClick={(e) => e.preventDefault(handleDelete(props.id))} className='transition-all duration-200 bg-red-500 hover:bg-red-600 text-sm text-white w-10 h-10 rounded-lg cursor-pointer'><i className='fas fa-trash' /></button> : ''}
+        <div className='p-2 flex space-x-2'>
+        {token.userId === props.author.id ? 
+        <button 
+        onClick={(e) => e.preventDefault(handleToggle())} 
+        className='transition-all duration-200 w-8 h-8 rounded text-white bg-orange-500 hover:bg-orange-600 text-xs'><i className='fas fa-pen' /></button> 
+        : ''}
+        {token.userId === props.author.id ? 
+        <button 
+        onClick={(e) => e.preventDefault(handleDelete(props.id))} 
+        className='transition-all duration-200 w-8 h-8 rounded text-white bg-red-500 hover:bg-red-600 text-xs'><i className='fas fa-trash' /></button> : ''}
+        </div>
       </div>
       {toggle ? <div className='p-2'>
         {post.imgtemp ? <img src={post.imgtemp} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/> : props.img && <img src={props.img} className='ml-auto mr-auto h-60 object-cover rounded shadow-lg'/>}
