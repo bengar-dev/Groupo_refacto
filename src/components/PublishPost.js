@@ -47,7 +47,6 @@ export default function PublishPost() {
       alert('post vide')
     } else {
       async function awaitPost() {
-        console.log(post.img)
         const result = await sendPost(htmlEntities(post.content), post.img)
         if(!result) {
           console.log(result)
@@ -100,14 +99,14 @@ export default function PublishPost() {
        <label htmlFor='publish-post' className='font-medium text-slate-300'>Publier un nouveau statut</label>
         <div id='publish-post' className='scale-0 transition-all duration-200 opacity-0 h-0 flex flex-col space-y-2 w-full'>
           <textarea
-          value={parseHtmlEntities(post.content)} 
-          onChange={handleInput} id='publish-content' 
+          value={parseHtmlEntities(post.content)}
+          onChange={handleInput} id='publish-content'
           className='p-2 h-60 rounded outline-none resize-none bg-slate-400'/>
           {post.imgtemp && <img src={post.imgtemp} className='h-10 object-cover'/>}
           <div id='btn-publish' className='hidden flex'>
             <label htmlFor='img' className='text-center transition-all duration-200 w-1/4 bg-slate-400 p-2 hover:bg-rose-400 cursor-pointer' aria-hidden="true"><i className="fas fa-images"></i><p className='hidden'>Image</p>
             <input type='file' className='w-0' id='img' accept='images/*' onChange={(e) => changeFile(e)}/></label>
-            <button 
+            <button
             onClick={(e) => e.preventDefault(handleSubmit())}
             className='transition-all duration-200 w-3/4 bg-slate-200 p-2 hover:bg-emerald-400' type='submit'>Envoyer</button>
           </div>
@@ -115,7 +114,7 @@ export default function PublishPost() {
        <div className='absolute text-slate-300 -top-1 right-2 flex space-x-2'>
         <span onClick={handleToggle} className='p-1 hover:text-sky-400 rounded cursor-pointer'>{toggle ? <i className='fas fa-arrow-down' /> : <i className='fas fa-arrow-up' /> }</span>
        </div>
-    
+
     </form>
   )
 }

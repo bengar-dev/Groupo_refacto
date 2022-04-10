@@ -6,13 +6,15 @@ import PublishPost from '../components/PublishPost'
 import { parseHtmlEntities } from '../functions/htmlentities'
 
 import { getPosts } from '../services/posts'
+import {getComments} from '../services/cmts'
 
 export default function Forum() {
 
   const dispatch = useDispatch()
 
-  const {postsArray} = useSelector(state => ({
-    ...state.postReducer
+  const {postsArray, cmtsArray} = useSelector(state => ({
+    ...state.postReducer,
+    ...state.cmtReducer
   }))
 
   useEffect(() => {
@@ -28,20 +30,33 @@ export default function Forum() {
         })
       }
     }
+    async function awaitComments() {
+      const result = await getComments()
+      if(!result) {
+        console.log('erreur')
+      } else {
+        dispatch({
+          type: 'GETCMT',
+          payload: result
+        })
+      }
+    }
     getPublications()
+    awaitComments()
   }, [])
 
   return (
     <div className='h-screen bg-slate-900 pt-20'>
       <PublishPost />
       {postsArray.length > 0 ? <section id='publications' className='mt-4 p-2 flex flex-col space-y-10 bg-slate-800'>
-        {postsArray.map(item => 
-          <Post 
+        {postsArray.map(item =>
+          <Post
           key={item.postId}
           id={item.postId}
           date={item.postedat}
           author={item.User}
           img={item.img}
+          likes={item.countLike}
           msg={parseHtmlEntities(item.msg)}
           />
         )}

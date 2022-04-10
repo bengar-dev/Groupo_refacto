@@ -44,7 +44,7 @@ export function deletePost(postid){
     return axios.delete(api + '/api/post/' + postid, {
       headers: {'Authorization' : 'Bearer ' + token.token}
     })
-      .then(function (response){ 
+      .then(function (response){
         return true
       })
       .catch(function (error){
