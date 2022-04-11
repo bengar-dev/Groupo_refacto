@@ -9,6 +9,8 @@ export default function Comment(props) {
 
   const dispatch = useDispatch()
 
+  const token = JSON.parse(localStorage.getItem('token'))
+
   const [toggle, setToggle] = useState(false)
   const [cmt, setCmt] = useState({
     id: props.id,
@@ -74,13 +76,17 @@ export default function Comment(props) {
                 <p className='font-light text-xs'>{moment(props.date).format('LLL')}</p>
             </div>
             <div className='p-2 flex space-x-2'>
+            {token.userId === props.author.id ?
               <button 
               onClick={(e) => e.preventDefault(handleToggle())}
               className='transition-all duration-200 w-6 h-6 rounded text-white bg-orange-500 hover:bg-orange-600 text-xs'><i className='fas fa-pen' /></button>
+              : ''}              
+              {token.userId === props.author.id || token.admin ? 
               <button 
               onClick={(e) => e.preventDefault(delComment(props.id))}
               className='transition-all duration-200 w-6 h-6 rounded text-white bg-red-500 hover:bg-red-600 text-xs'><i className='fas fa-trash' /></button>
-            </div>
+              : '' }
+              </div>
         </div>
         {toggle ? // si le toggle est actif alors on affiche les champs d'édition de commentaire
           <div className='flex p-2 text-sm bg-slate-700'>
