@@ -112,7 +112,7 @@ export default function EditProfil() {
     })
 
   return (
-    <div className='h-screen bg-slate-900 pt-20'>
+    <div className='h-screen bg-slate-900 pt-20 w-full md:w-9/12 lg:w-7/12'>
         <div className='relative mt-10 p-2 bg-slate-800 w-full flex flex-col space-y-4'>
             <h1 className='text-slate-400 font-medium text-lg'><i className='fas fa-user-edit' /> Editer mon profil</h1>
             <button 

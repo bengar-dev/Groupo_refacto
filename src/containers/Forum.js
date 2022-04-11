@@ -45,8 +45,10 @@ export default function Forum() {
     awaitComments()
   }, [])
 
+  console.log(postsArray)
+
   return (
-    <div className='h-screen bg-slate-900 pt-20'>
+    <div className='min-h-screen h-full bg-slate-900 pt-20 md:w-9/12 lg:w-7/12'>
       <PublishPost />
       {postsArray.length > 0 ? <section id='publications' className='mt-4 p-2 flex flex-col space-y-10 bg-slate-800'>
         {postsArray.map(item =>
@@ -57,6 +59,7 @@ export default function Forum() {
           author={item.User}
           img={item.img}
           likes={item.countLike}
+          likearray={item.userLike}
           msg={parseHtmlEntities(item.msg)}
           />
         )}

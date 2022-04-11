@@ -16,7 +16,7 @@ export default function PublishPost() {
   const [post, setPost] = useState({
     content: '',
     img: null,
-    imgtemp: ''
+    imgtemp: '',
   })
 
   const handleToggle = () => {
@@ -57,6 +57,8 @@ export default function PublishPost() {
             userId: result.userId,
             msg: result.msg,
             img: post.imgtemp,
+            countLike: 0,
+            userLike: '[]',
             User: {
               ...userInfo
             }

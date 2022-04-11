@@ -14,7 +14,6 @@ function cmtReducer(state = INITIAL_STATE, action) {
         case 'POSTCMT': {
           const newArr = [...state.cmtsArray]
           newArr.unshift(action.payload)
-          console.log(newArr)
             return {
                 ...state,
                 cmtsArray: newArr
@@ -25,7 +24,6 @@ function cmtReducer(state = INITIAL_STATE, action) {
             let newArr = cmtsArr.filter(cmt => {
                 return cmt.id !== action.payload
             })
-            console.log(cmtsArr)
             return {
                 ...state,
                 cmtsArray: newArr

@@ -14,14 +14,14 @@ function App() {
   return (
     <>
       {isAuth ?
-      <>
+      <div className='bg-slate-900 flex flex-col items-center'>
         <Header /> 
         <Routes>
           <Route path='/' element={<Forum />} />
           <Route path='/profil/:id' element={<Profil />} />
           <Route path='/editprofil' element={<EditProfil />} />
         </Routes>
-        </>
+        </div>
         :
         <Routes>
           <Route path='/' element={<Login />} />

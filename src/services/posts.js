@@ -78,3 +78,23 @@ export function editPost(postid, img, msg, delImg) {
             })
     }
 }
+
+export function likePost(postid, value) {
+    
+    let like = {
+        like: value,
+        userId: token.userId
+    }
+
+    console.log(like)
+
+    return axios.post(api + '/api/post/' + postid + '/like', like, {
+        headers: {'Authorization' : 'Bearer ' + token.token}
+    })
+        .then(function (response) {
+            return response.data.post.countLike
+        })
+        .catch(function (error) {
+            return false
+        })
+}

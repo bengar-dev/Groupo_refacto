@@ -36,10 +36,10 @@ export default function Profil() {
     }
 
   return (
-    <section id='profil' className='h-screen bg-slate-900 pt-20'>
+    <section id='profil' className='h-screen bg-slate-900 pt-20 w-full md:w-9/12 lg:w-7/12'>
         <div className='relative mt-10 p-2 bg-slate-800 w-full flex flex-col space-y-4'>
             <h1 className='flex items-center text-slate-400 font-bold text-2xl uppercase'>{user.firstname} {user.lastname} {handleRank()}</h1>
-            <img src={user.avatar} className='w-20 h-20 object-cover ml-auto mr-auto rounded-full shadow-lg'/>
+            <img src={user.avatar} className='md:shadow-xl md:border-2 md:border-slate-400 w-20 h-20 md:w-40 md:h-40 object-cover ml-auto mr-auto rounded-full shadow-lg'/>
             <div className='flex flex-col space-y-1'>
                 <h2 className='font-medium text-slate-400'>Contact :</h2>
                 <span className='text-slate-300 text-sm'><i className='fas fa-at text-sky-400' />  {user.email}</span>

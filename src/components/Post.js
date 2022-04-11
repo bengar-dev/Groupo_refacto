@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import {v4 as uuidv4} from 'uuid'
 
-import { deletePost, editPost } from '../services/posts'
+import { deletePost, editPost, likePost } from '../services/posts'
 import {postCmt} from '../services/cmts'
 import { parseHtmlEntities } from '../functions/htmlentities'
 
@@ -29,6 +29,8 @@ export default function Post(props) {
     postId: props.id,
     content: props.msg,
     img: props.img,
+    countLike: props.likes,
+    userLike: props.likearray,
     imgtemp: ''
   })
   const [delImg, setDelImg] = useState(false)
@@ -44,7 +46,7 @@ export default function Post(props) {
     async function awaitDeletePost() {
       const result = await deletePost(id)
       if(!result) {
-        console.log(result)
+        console.log('erreur')
       } else {
         dispatch({
           type: 'DELPOST',
@@ -139,6 +141,70 @@ export default function Post(props) {
     })
   }
 
+  const countCmt = (postid) => {
+   let newArray = cmtsArray
+   let filterArray = newArray.filter(p => {
+     return p.postId === postid
+   })
+   return filterArray.length
+  }
+
+  const handleLike = (postid, value) => {
+    async function awaitLike() {
+      const result = await likePost(postid, value)
+      if(result === false) {
+        console.log(('erreur'))
+      }
+      else {
+        let newArr = JSON.parse(post.userLike)
+        let object = {
+          like: value,
+          postId: postid,
+          countLike : result,
+          userId : token.userId
+        }
+        if(value === 1) {
+          newArr.push(token.userId)
+          setPost({
+            ...post,
+            countLike : result + 1,
+            userLike: JSON.stringify(newArr)
+          })
+          console.log(post)
+          dispatch({
+            type: 'LIKE',
+            payload: object
+          })
+        } else {
+          let findIndex = newArr.findIndex(p => p === token.userId)
+          newArr.splice(findIndex, 1)
+          setPost({
+            ...post,
+            countLike : result - 1,
+            userLike: JSON.stringify(newArr)
+          })
+          console.log(post)
+          dispatch({
+            type: 'DISLIKE',
+            payload: object
+          })
+        }
+      }
+    }
+    awaitLike()
+  }
+
+  const findLikeUser = (postid) => {
+    if(post) {
+      const findIndex = JSON.parse(post.userLike).findIndex(p => p === token.userId)
+      if(findIndex === -1) {
+        return false
+      } else {
+        return true
+      }
+    }
+  }
+
   return (
     <article className='bg-slate-900 text-slate-200 rounded shadow-lg flex flex-col' id={props.id}>
       <div className='p-2 flex items-center bg-slate-700 space-x-2'>
@@ -187,13 +253,21 @@ export default function Post(props) {
       </form>
       }
       <div className='w-full bg-slate-400 p-1 flex items-center justify-between'>
-        {props.likes > 0 ? <p className='text-xs text-red-900'><i className='fas fa-heart'/> {props.likes} </p> : <p className='text-xs text-red-900'></p>}
-        <button className='transition-all duration-200 w-16 flex justify-around items-center p-1 rounded-lg bg-slate-600 hover:bg-emerald-400 hover:text-emerald-800 text-xs'><i className='fas fa-heart' />J'aime</button>
+        {post.countLike > 0 ? <p className='text-xs text-red-900'><i className='fas fa-heart'/> {post.countLike} </p> : <p className='text-xs text-red-900'></p>}
+        {findLikeUser(props.id) ? 
+        <button 
+        onClick={(e) => e.preventDefault(handleLike(props.id, 0))}
+        className='transition-all duration-200 w-16 flex justify-around items-center p-1 rounded-lg bg-emerald-400 hover:bg-slate-600 text-emerald-800 hover:text-slate-300 text-xs'><i className='fas fa-heart' />J'aime</button>
+        :
+        <button 
+        onClick={(e) => e.preventDefault(handleLike(props.id, 1))}
+        className='transition-all duration-200 w-16 flex justify-around items-center p-1 rounded-lg bg-slate-600 hover:bg-emerald-400 hover:text-emerald-800 text-xs'><i className='fas fa-heart' />J'aime</button>
+        }
       </div>
       <div className='p-2 w-full'>
         <button
           onClick={() => setToggleCmt(!toggleCmt)}
-          className='text-xs font-medium p-2'>{toggleCmt ? 'Cacher les commentaires' : `Voir les commentaires (${cmtsArray.length})`}</button>
+          className='text-xs font-medium p-2'>{toggleCmt ? 'Cacher les commentaires' : `Voir les commentaires (${countCmt(props.id)})`}</button>
         {toggleCmt &&
           <form className='flex justify-between'>
             <label htmlFor='cmt'></label>

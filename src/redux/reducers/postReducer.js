@@ -51,7 +51,35 @@ function postReducer(state = INITIAL_STATE, action) {
             }
         }
 
-        
+        case 'LIKE': {
+            const newArr = [...state.postsArray]
+            const findIndex = newArr.findIndex(post => post.postId === action.payload.postId)
+            let userLikeArr = JSON.parse(newArr[findIndex].userLike)
+            userLikeArr.push(action.payload.userId)
+            newArr[findIndex].userLike = JSON.stringify(userLikeArr)
+            newArr[findIndex].countLike = newArr[findIndex].countLike + 1
+            console.log(newArr)
+            return {
+                ...state,
+                postsArray: newArr
+            }
+        }
+
+        case 'DISLIKE': {
+            const newArr = [...state.postsArray]
+            const findIndex = newArr.findIndex(post => post.postId === action.payload.postId)
+            let userLikeArr = JSON.parse(newArr[findIndex].userLike)
+            const filterArr = userLikeArr.filter(p => {
+                return p === action.payload.userId
+            })
+            newArr[findIndex].userLike = JSON.stringify(filterArr)
+            newArr[findIndex].countLike = newArr[findIndex].countLike - 1
+            console.log(newArr)
+            return {
+                ...state,
+                postsArray: newArr
+            }
+        }
 
     }
 

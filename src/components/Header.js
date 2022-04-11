@@ -51,7 +51,7 @@ export default function Header() {
   }
 
   return (
-    <header className='fixed top-0 z-10 w-full h-20 bg-slate-700 shadow-lg flex items-center justify-between'>
+    <header className='fixed top-0 z-10 w-full h-20 bg-slate-700 shadow-lg flex items-center justify-between md:justify-around'>
       <img src={logowhite} className='w-40 h-auto p-2 cursor-pointer' onClick={(e) => e.preventDefault(navigate('/'))}/>
       <div className='flex items-center space-x-2 p-2'>
         <img 
