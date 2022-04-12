@@ -4,6 +4,8 @@ Refactorisation du projet Groupomania chez OpenClassrooms & utilisation de *Redu
 
 Vous pouvez retrouver le projet original complet ici : https://github.com/benysserp/Groupomania
 
+Lien vers le back-end : https://github.com/benysserp/Groupo_back_sequelize
+
 Technologies utilisées:
 
 1. **React**
